@@ -1,8 +1,8 @@
 {
   "name": "weatherforecast",
   "version": "1.0.0",
-  "description": "{Important! Do not say in this section that this is college assignment. Talk about what you are trying to accomplish as a software engineer to further your learning.}",
-  "main": "index.js",
+  "description": "JavaScript file uses zip codes to get and display weather data. This project is for learning JavaScript and making a Full-Stack web application.",
+  "main": "./WeatherForecast/index.js",
   "scripts": {
     "start": "node ."
   },
