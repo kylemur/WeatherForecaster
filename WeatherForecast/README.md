@@ -6,7 +6,7 @@ The index.js file allows a user to search for weather data (either current or an
 
 I wanted to learn more JavaScript so that I can better develope websites and applications. Previously, most of my experience was Front-End and I want to be a Full-Stack developer.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/g5HuLGGrObU)
 
 # Development Environment
 
