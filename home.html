@@ -1,22 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Forecast</title>
-
-    <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-        }
-    </style>
+    <meta name="description" content="Home page for Weather Forecast web wpplication.">
+    <meta name="author" content="Kyle Murdock">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-
-    <h1>
-        Full stack web application. 
-    </h1>
-    
+    <header>
+        <h1>
+            Weather Forecast\n 
+            A Full Stack Web Application 
+        </h1>
+    </header>
+    <main>
+        <form>
+            <label for="inputString">Enter a zip code:</label>
+            <input type="text" id="inputString" name="inputString">
+            <button type="button" onclick="displayString()">Submit</button>
+        </form>
+        <p id="output"></p>
+        <script src="current.js"></script>
+        <!--
+        <form>
+            <fieldset>
+                <div>
+                    <label for="current">Current Weather:</label>
+                    <input type="text" id="current" name="current">
+                    <label for="8-day">8-Day Forecast:</label>
+                    <input type="text" id="8-day" name="8-day">
+                </div>
+                <div>
+                    <textarea id="data" name="data" cols="30" rows="10"></textarea>
+                </div>
+            </fieldset>
+            <button type="submit" id="enter">Enter</button>
+        </form>
+        -->
+    </main>
+    <footer>
+        <p>&copy;2024 Kyle Murdock</p>
+    </footer>
 </body>
+<!-- Last Modified: 10/15/2024 -->
 </html>
