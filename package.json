@@ -2,7 +2,7 @@
   "name": "weatherforecast",
   "version": "1.0.0",
   "description": "JavaScript file uses zip codes to get and display weather data. This project is for learning JavaScript and making a Full-Stack web application.",
-  "main": "./WeatherForecast/index_practice.js",
+  "main": "./index_practice.js",
   "scripts": {
     "start": "node ."
   },
