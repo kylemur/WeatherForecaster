@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecaster</title>
+</head>
+<body>
+  <h1>Weather Forecaster</h1>
+  <form id="zipcodeForm">
+    <label for="zipcode">Enter Zipcode:</label>
+    <input type="text" id="zipcode" name="zipcode" required>
+    <button type="submit">Get Weather</button>
+  </form>
+  <button id="forecastButton">Get 8-Day Forecast</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('zipcodeForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const zipcode = document.getElementById('zipcode').value;
+
+      fetch(`/getLatLong?zipcode=${zipcode}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('result').innerText = data.error;
+          } else {
+            const { lat, lon } = data;
+            getCurrentWeather(lat, lon);
+          }
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = 'Error fetching data';
+        });
+    });
+
+    document.getElementById('forecastButton').addEventListener('click', function() {
+      const zipcode = document.getElementById('zipcode').value;
+
+      fetch(`/getLatLong?zipcode=${zipcode}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('result').innerText = data.error;
+          } else {
+            const { lat, lon } = data;
+            getWeatherForecast(lat, lon);
+          }
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = 'Error fetching data';
+        });
+    });
+
+    function getCurrentWeather(lat, lon) {
+      fetch(`/getCurrentWeather?lat=${lat}&lon=${lon}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('result').innerText = data.error;
+          } else {
+            const weatherDescription = data.description;
+            document.getElementById('result').innerText = `Current weather: ${weatherDescription}`;
+          }
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = 'Error fetching weather data';
+        });
+    }
+
+    function getWeatherForecast(lat, lon) {
+      fetch(`/getWeatherForecast?lat=${lat}&lon=${lon}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById('result').innerText = data.error;
+          } else {
+            let forecastHtml = '8-Day Weather Forecast:<br>';
+            data.forEach(forecast => {
+              forecastHtml += `${forecast.day}<br>`;
+              forecastHtml += `Max Temp: ${forecast.maxTemp}<br>`;
+              forecastHtml += `Min Temp: ${forecast.minTemp}<br>`;
+              forecastHtml += `Summary: ${forecast.summary}<br>`;
+              forecastHtml += '-------------------------<br>';
+            });
+            document.getElementById('result').innerHTML = forecastHtml;
+          }
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = 'Error fetching weather forecast';
+        });
+    }
+  </script>
+</body>
+</html>

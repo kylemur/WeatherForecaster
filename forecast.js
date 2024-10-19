@@ -1,9 +1,9 @@
 const readline = require('readline');
 const axios = require('axios');
 
-
 const API_KEY = '87b6625228345f0eb1666245b6367663'; 
 const BASE_URL = 'http://api.openweathermap.org/data/3.0/';
+
 const GEO_URL = 'http://api.openweathermap.org/geo/1.0/zip';
 
 
@@ -37,20 +37,23 @@ function getLatLong(zipcode, callback) { // converts zipcode to latitude and lon
 }
 
 
-function getCurrentWeather(lat, long) { // calls API and receives data as JSON, then displays data
-  const url = `${BASE_URL}onecall?lat=${lat}&lon=${long}&appid=${API_KEY}&units=imperial`;
+function getWeatherForecast(lat, lon) {
+  const url = `${BASE_URL}onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`;
 
-  axios.get(url)
+  return axios.get(url)
     .then(response => {
       const weather = response.data;
-      console.log(`Temperature: ${weather.current.temp}°F`);
-      console.log(`Feels Like: ${weather.current.feels_like}°F`);
-      start();
+      const dailyForecasts = weather.daily.map((day, index) => ({
+        day: `Day ${index + 1}`,
+        maxTemp: `${day.temp.max}°F`,
+        minTemp: `${day.temp.min}°F`,
+        summary: day.weather[0].description,
+      }));
+      return dailyForecasts;
     })
     .catch(error => {
-      console.log('\nError fetching weather data:', error.message);
-      askForZipcode(getCurrentWeather); // Prompt the user again
+      throw new Error('Error fetching weather data');
     });
 }
 
-module.exports = { getLatLong, getCurrentWeather };
+module.exports = { askForZipcode, getLatLong, getWeatherForecast };
