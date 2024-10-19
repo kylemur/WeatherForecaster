@@ -4,7 +4,10 @@ const axios = require('axios');
 const { getWeatherForecast } = require('./forecast'); // Import the function
 
 const app = express();
-const port = 3000;
+
+// Use PORT environment variable if available, otherwise default to 8080
+const PORT = process.env.PORT || 8080;
+// const port = 3000;
 
 const API_KEY = '87b6625228345f0eb1666245b6367663'; 
 const GEO_URL = 'http://api.openweathermap.org/geo/1.0/zip';
