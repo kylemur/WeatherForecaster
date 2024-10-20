@@ -9,139 +9,149 @@
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
-  <h1>Weather Forecaster</h1>
-  <form id="zipcodeForm">
-    <label for="zipcode">Enter Zipcode:</label>
-    <input type="text" id="zipcode" name="zipcode" required>
-    <button type="submit">Get Current Weather</button>
-  </form>
-  <button id="forecastButton">Get 8-Day Forecast</button>
-  <button id="hourlyButton">Get Hourly Forecast</button>
-  <div id="result"></div>
+  <header>
+    <h1>
+      Weather Forecaster: A Full Stack Web Application 
+    </h1>
+  </header>
+  <main>
+    <form id="zipcodeForm">
+        <label for="zipcode">Enter Zipcode:</label>
+        <input type="text" id="zipcode" name="zipcode" required>
+        <button type="submit">Get Current Weather</button>
+    </form>
+    <button id="forecastButton">Get 8-Day Forecast</button>
+    <button id="hourlyButton">Get Hourly Forecast</button>
+    <div id="result"></div>
 
-  <script>
-    document.getElementById('zipcodeForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const zipcode = document.getElementById('zipcode').value;
+    <script>
+        document.getElementById('zipcodeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const zipcode = document.getElementById('zipcode').value;
 
-      fetch(`/getLatLong?zipcode=${zipcode}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            const { lat, lon } = data;
-            getCurrentWeather(lat, lon);
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = 'Error fetching data';
-        });
-    });
-
-    document.getElementById('forecastButton').addEventListener('click', function() {
-      const zipcode = document.getElementById('zipcode').value;
-
-      fetch(`/getLatLong?zipcode=${zipcode}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            const { lat, lon } = data;
-            getDailyForecast(lat, lon);
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = 'Error fetching data';
-        });
-    });
-
-    document.getElementById('hourlyButton').addEventListener('click', function() {
-      const zipcode = document.getElementById('zipcode').value;
-
-      fetch(`/getLatLong?zipcode=${zipcode}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            const { lat, lon } = data;
-            getHourlyForecast(lat, lon);
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = 'Error fetching data';
-        });
-    });
-
-    function getCurrentWeather(lat, lon) {
-      fetch(`/getCurrentWeather?lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            const weatherDescription = data.description;
-            const temperature = data.temperature;
-            const feelsLike = data.feelsLike;
-            const windSpeed = data.windSpeed;
-            document.getElementById('result').innerText = `Current Temperature: ${temperature}°F \nFeels Like: ${feelsLike}°F \nWind Speed: ${windSpeed} mph \nDescription: ${weatherDescription}`;
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = `${error} error fetching weather data`;
-        });
-    }
-
-    function getDailyForecast(lat, lon) {
-      fetch(`/getDailyForecast?lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            let forecastHtml = '8-Day Weather Forecast:<br>';
-            data.forEach(forecast => {
-              forecastHtml += `${forecast.day}<br>`;
-              forecastHtml += `High Temp: ${forecast.maxTemp}<br>`;
-              forecastHtml += `Low Temp: ${forecast.minTemp}<br>`;
-              forecastHtml += `Wind Speed: ${forecast.windSpeed}<br>`;
-              forecastHtml += `Precipitation Probability: ${forecast.precipitationProbability}<br>`;
-              forecastHtml += `Summary: ${forecast.summary}<br>`;
-              forecastHtml += '-------------------------<br>';
+        fetch(`/getLatLong?zipcode=${zipcode}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                const { lat, lon } = data;
+                getCurrentWeather(lat, lon);
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = 'Error fetching data';
             });
-            document.getElementById('result').innerHTML = forecastHtml;
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = 'Error fetching weather forecast';
         });
-    }
 
-    function getHourlyForecast(lat, lon) {
-      fetch(`/getHourlyForecast?lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.error) {
-            document.getElementById('result').innerText = data.error;
-          } else {
-            let hourlyHtml = '24-Hour Weather Forecast:<br>';
-            data.forEach(hour => {
-              hourlyHtml += `${hour.hour}<br>`;
-              hourlyHtml += `Temperature: ${hour.temperature}<br>`;
-              hourlyHtml += `Wind Speed: ${hour.windSpeed}<br>`;
-              hourlyHtml += `Precipitation Probability: ${hour.precipitationProbability}<br>`;
-              hourlyHtml += `Summary: ${hour.summary}<br>`;
-              hourlyHtml += '-------------------------<br>';
+        document.getElementById('forecastButton').addEventListener('click', function() {
+        const zipcode = document.getElementById('zipcode').value;
+
+        fetch(`/getLatLong?zipcode=${zipcode}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                const { lat, lon } = data;
+                getDailyForecast(lat, lon);
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = 'Error fetching data';
             });
-            document.getElementById('result').innerHTML = hourlyHtml;
-          }
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = `${error} error fetching hourly forecast`;
         });
-    }
-  </script>
+
+        document.getElementById('hourlyButton').addEventListener('click', function() {
+        const zipcode = document.getElementById('zipcode').value;
+
+        fetch(`/getLatLong?zipcode=${zipcode}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                const { lat, lon } = data;
+                getHourlyForecast(lat, lon);
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = 'Error fetching data';
+            });
+        });
+
+        function getCurrentWeather(lat, lon) {
+        fetch(`/getCurrentWeather?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                const weatherDescription = data.description;
+                const temperature = data.temperature;
+                const feelsLike = data.feelsLike;
+                const windSpeed = data.windSpeed;
+                document.getElementById('result').innerText = `Current Temperature: ${temperature}°F \nFeels Like: ${feelsLike}°F \nWind Speed: ${windSpeed} mph \nDescription: ${weatherDescription}`;
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = `${error} error fetching weather data`;
+            });
+        }
+
+        function getDailyForecast(lat, lon) {
+        fetch(`/getDailyForecast?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                let forecastHtml = '<h3>8-Day Weather Forecast</h3><br>';
+                data.forEach(forecast => {
+                forecastHtml += `${forecast.day}<br>`;
+                forecastHtml += `High Temp: ${forecast.maxTemp}<br>`;
+                forecastHtml += `Low Temp: ${forecast.minTemp}<br>`;
+                forecastHtml += `Wind Speed: ${forecast.windSpeed}<br>`;
+                forecastHtml += `Precipitation Probability: ${forecast.precipitationProbability}<br>`;
+                forecastHtml += `Summary: ${forecast.summary}<br>`;
+                forecastHtml += '-------------------------<br>';
+                });
+                document.getElementById('result').innerHTML = forecastHtml;
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = 'Error fetching weather forecast';
+            });
+        }
+
+        function getHourlyForecast(lat, lon) {
+        fetch(`/getHourlyForecast?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+            if (data.error) {
+                document.getElementById('result').innerText = data.error;
+            } else {
+                let hourlyHtml = '<h3>24-Hour Weather Forecast</h3><br>';
+                data.forEach(hour => {
+                hourlyHtml += `${hour.hour}<br>`;
+                hourlyHtml += `Temperature: ${hour.temperature}<br>`;
+                hourlyHtml += `Wind Speed: ${hour.windSpeed}<br>`;
+                hourlyHtml += `Precipitation Probability: ${hour.precipitationProbability}<br>`;
+                hourlyHtml += `Summary: ${hour.summary}<br>`;
+                hourlyHtml += '-------------------------<br>';
+                });
+                document.getElementById('result').innerHTML = hourlyHtml;
+            }
+            })
+            .catch(error => {
+            document.getElementById('result').innerText = `${error} error fetching hourly forecast`;
+            });
+        }
+    </script>
+  </main>
+  <footer>
+    <p>&copy;2024 Kyle Murdock</p>
+  </footer>
 </body>
+<!-- Last Modified: 10/19/2024 -->
 </html>
