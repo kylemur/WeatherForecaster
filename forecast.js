@@ -36,8 +36,29 @@ function getLatLong(zipcode, callback) { // converts zipcode to latitude and lon
     });
 }
 
+function getHourlyForecast(lat, lon) {
+    const url = `${BASE_URL}onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`;
+  
+    return axios.get(url)
+      .then(response => {
+        const weather = response.data;
+        const hourlyForecasts = weather.hourly.map((hour, index) => ({
+          hour: `Day ${index + 1}`,
+          maxTemp: `${hour.temp.max}°F`,
+          minTemp: `${hour.temp.min}°F`,
+          windSpeed: `${hour.wind_speed} mph`,
+          precipitation: `${hour.pop * 100}%`,
+          summary: hour.weather[0].description,
+        }));
+        return hourlyForecasts;
+      })
+      .catch(error => {
+        throw new Error('Error fetching weather data');
+      });
+  }
 
-function getWeatherForecast(lat, lon) {
+
+function getDailyForecast(lat, lon) {
   const url = `${BASE_URL}onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`;
 
   return axios.get(url)
@@ -47,6 +68,8 @@ function getWeatherForecast(lat, lon) {
         day: `Day ${index + 1}`,
         maxTemp: `${day.temp.max}°F`,
         minTemp: `${day.temp.min}°F`,
+        windSpeed: `${day.wind_speed} mph`,
+        precipitation: `${day.pop * 100}%`,
         summary: day.weather[0].description,
       }));
       return dailyForecasts;
@@ -56,4 +79,4 @@ function getWeatherForecast(lat, lon) {
     });
 }
 
-module.exports = { askForZipcode, getLatLong, getWeatherForecast };
+module.exports = { askForZipcode, getLatLong, getHourlyForecast, getDailyForecast };

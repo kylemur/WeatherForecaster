@@ -53,4 +53,4 @@ function getCurrentWeather(lat, long) { // calls API and receives data as JSON, 
     });
 }
 
-module.exports = { getLatLong, getCurrentWeather };
+module.exports = { askForZipcode, getLatLong, getCurrentWeather };
